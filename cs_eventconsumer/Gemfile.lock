@@ -2,11 +2,21 @@ PATH
   remote: .
   specs:
     cs_eventconsumer (0.0.1)
+      bunny
+      json
+      mongo
 
 GEM
   remote: https://rubygems.org/
   specs:
+    amq-protocol (1.7.0)
+    bson (1.9.2)
+    bunny (0.10.4)
+      amq-protocol (>= 1.6.0)
     diff-lcs (1.2.4)
+    json (1.7.6)
+    mongo (1.9.2)
+      bson (~> 1.9.2)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)

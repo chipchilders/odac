@@ -15,4 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = CsEventconsumer::VERSION
   gem.add_development_dependency "rspec", "~> 2.6"
+  gem.add_dependency "mongo"
+  gem.add_dependency "bunny"
+  gem.add_dependency "json"
 end
