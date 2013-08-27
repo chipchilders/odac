@@ -1,0 +1,4 @@
+<h1>Events#index</h1>
+<% @events.each do |event| %>
+  <p><%= event.to_json() %> = <%= event %></p>
+<% end %>
