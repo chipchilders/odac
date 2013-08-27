@@ -9,6 +9,6 @@ describe CsEventconsumer::RabbitListener do
     ch = conn.create_channel
     x  = ch.topic(CsEventconsumer::Config::RABBIT_EXCHANGE)
     x.publish('{"status":"Completed","event":"CONFIGURATION.VALUE.EDIT","account":"e4f70638-ee42-11e2-8591-02004f97000b","user":"e4f72889-ee42-11e2-8591-02004f97000b"}', :routing_key => 'management-server.ActionEvent.CONFIGURATION-VALUE-EDIT.Configuration.*')
-    CsEventconsumer::RabbitListener.listen()
+    #CsEventconsumer::RabbitListener.listen()
   end
 end

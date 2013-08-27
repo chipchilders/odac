@@ -18,4 +18,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency "mongo"
   gem.add_dependency "bunny"
   gem.add_dependency "json"
+  gem.add_dependency "daemons"
 end

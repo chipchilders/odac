@@ -4,8 +4,9 @@ require 'bunny'
 
 module CsEventconsumer
   class RabbitListener
-    def self.listen()
+    def listen()
       conn = Bunny.new(Config::RABBIT_URL)
+      db = DbAccess.new()
       conn.start
       ch = conn.create_channel
       q  = ch.queue(Config::RABBIT_QUEUE)
@@ -16,6 +17,7 @@ module CsEventconsumer
           puts "Received #{payload}"
           puts "Del Info #{delivery_info}"
           puts "Metadata #{metadata}"
+          db.write(payload)
       end
 
       #x.publish('{"status":"Completed","event":"CONFIGURATION.VALUE.EDIT","account":"e4f70638-ee42-11e2-8591-02004f97000b","user":"e4f72889-ee42-11e2-8591-02004f97000b"}', :routing_key => 'management-server.ActionEvent.CONFIGURATION-VALUE-EDIT.Configuration.*')
