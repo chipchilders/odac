@@ -1,11 +1,14 @@
 require 'cs_eventconsumer'
+require 'cs_eventconsumer/config'
+require 'bunny'
 
-describe CsEventconsumer::DbAccess do
-  #it "Add an event" do
-  #  CsEventconsumer::DbAccess.write("Broccoli")
-  #end
-
-  it "Read last event" do
-    CsEventconsumer::DbAccess.readlatest()
+describe CsEventconsumer::RabbitListener do
+  it "Read an event" do
+    conn = Bunny.new(CsEventconsumer::Config::RABBIT_URL)
+    conn.start
+    ch = conn.create_channel
+    x  = ch.topic(CsEventconsumer::Config::RABBIT_EXCHANGE)
+    x.publish('{"status":"Completed","event":"CONFIGURATION.VALUE.EDIT","account":"e4f70638-ee42-11e2-8591-02004f97000b","user":"e4f72889-ee42-11e2-8591-02004f97000b"}', :routing_key => 'management-server.ActionEvent.CONFIGURATION-VALUE-EDIT.Configuration.*')
+    CsEventconsumer::RabbitListener.listen()
   end
 end
