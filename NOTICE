@@ -1,0 +1,7 @@
+Operator Dashboard for Apache CloudStack (tm)
+Copyright 2013 Chip Childers
+
+The Retriever bootstrap theme is included in this source package 
+within the cs-oper-dash/app/assets/stylesheets/bootstrap_and_overrides.css.scss 
+and cs-oper-dash/app/assets/images/stich.png files. This was obtained
+from Damian Sowers via https://github.com/damian-sowers/retriever-bootstrap
