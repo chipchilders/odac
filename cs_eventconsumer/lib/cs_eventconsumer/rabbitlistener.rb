@@ -9,8 +9,8 @@ module CsEventconsumer
       db = DbAccess.new()
       conn.start
       ch = conn.create_channel
-      q  = ch.queue(Config::RABBIT_QUEUE)
-      x  = ch.topic(Config::RABBIT_EXCHANGE)
+      q  = ch.queue(Config::RABBIT_QUEUE_NAME, :auto_delete => Config::RABBIT_QUEUE_DELETE)
+      x  = ch.topic(Config::RABBIT_EXCHANGE_NAME, :auto_delete => Config::RABBIT_EXCHANGE_DELETE, :durable => Config::RABBIT_EXCHANGE_DURABLE)
       q.bind(x, :routing_key => Config::RABBIT_BINDING)
 
       q.subscribe do |delivery_info, metadata, payload|

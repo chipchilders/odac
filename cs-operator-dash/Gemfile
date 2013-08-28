@@ -43,4 +43,5 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'bson_ext'
-gem 'mongo_mapper'
+gem 'bootstrap-sass'
+gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'

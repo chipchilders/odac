@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/mongoid/mongoid.git
+  revision: d0fc225a81a27dfdd69f17134a564208bbe501c6
+  specs:
+    mongoid (4.0.0)
+      activemodel (~> 4.0.0)
+      moped (~> 1.5)
+      origin (~> 1.0)
+      tzinfo (~> 0.3.22)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -27,6 +37,8 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.0)
     atomic (1.1.13)
+    bootstrap-sass (2.3.2.1)
+      sass (~> 3.2)
     bson (1.9.2)
     bson_ext (1.9.2)
       bson (~> 1.9.2)
@@ -45,8 +57,6 @@ GEM
     jbuilder (1.5.1)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
-    jnunemaker-validatable (1.8.4)
-      activesupport (>= 2.3.4)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -56,15 +66,9 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.24)
     minitest (4.7.5)
-    mongo (1.9.2)
-      bson (~> 1.9.2)
-    mongo_mapper (0.8.6)
-      activesupport (>= 2.3.4)
-      jnunemaker-validatable (~> 1.8.4)
-      plucky (~> 0.3.6)
+    moped (1.5.1)
     multi_json (1.7.9)
-    plucky (0.3.8)
-      mongo (~> 1.3)
+    origin (1.1.0)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -120,11 +124,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass
   bson_ext
   coffee-rails (~> 4.0.0)
   jbuilder (~> 1.2)
   jquery-rails
-  mongo_mapper
+  mongoid!
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)
   sdoc

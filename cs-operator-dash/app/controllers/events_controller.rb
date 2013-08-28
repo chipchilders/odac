@@ -1,5 +1,11 @@
 class EventsController < ApplicationController
   def index
-    @events = Events.all
+    @events = Event.all
   end
+
+  def json
+    @events = Event.all
+    render json: @events
+  end
+
 end

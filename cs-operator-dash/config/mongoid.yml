@@ -1,0 +1,6 @@
+development:
+  sessions:
+    default:
+      database: cloudstack_events
+      hosts:
+        - localhost:27017
