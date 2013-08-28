@@ -1,13 +1,17 @@
 <h1>Event Viewer</h1>
-<table>
+<table id="events">
+  <thead>
   <tr>
     <th>Type</th>
     <th>Content</th>
   </tr>
+</thead>
+<tbody>
   <% @events.each do |event| %>
     <tr>
       <td><%= event["event"] %></td>
       <td><%= event.to_json() %></td>
     </tr>
   <% end %>
+</tbody>
 </table>
