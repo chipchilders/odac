@@ -8,4 +8,8 @@ class EventsController < ApplicationController
     render json: @events
   end
 
+  def view
+    @event = Event.find(params[:id])
+  end
+
 end

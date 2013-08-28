@@ -1,16 +1,8 @@
 CsOperatorDash::Application.routes.draw do
   get 'events/index' => 'events#index'
   get 'events/json' => 'events#json'
-  #events GET    /events(.:format)          events#index
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
   root 'events#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  get 'events/:id' => 'events#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

@@ -11,16 +11,16 @@
   <body>
     <header class="navbar navbar-fixed-top">
       <nav class="navbar-inner">
-        <div class="container">
+        <div class="container-fluid">
           <%= render 'layouts/navigation' %>
         </div>
       </nav>
     </header>
     <main role="main">
-      <div class="container">
+      <div class="container-fluid">
         <div class="content">
-           <div class="row">
-            <div class="span12">
+           <div class="row-fluid">
+            <div class="span12" id="content">
               <%= render 'layouts/messages' %>
               <%= yield %>
             </div>

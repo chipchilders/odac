@@ -14,3 +14,23 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+
+$(function() {                                                                                                                                                        │
+    // Side Bar Toggle                                                                                                                                                │Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2013-08-28 15:54:51 -0400
+    $('.hide-sidebar').click(function() {                                                                                                                             │[2013-08-28 15:54:51] WARN  Could not determine content-length of response body. Set content-length of th
+          $('#sidebar').hide('fast', function() {                                                                                                                     │e response or set Response#chunked = true
+                $('#content').removeClass('span9');                                                                                                                   │
+                $('#content').addClass('span12');                                                                                                                     │
+                $('.hide-sidebar').hide();                                                                                                                            │Started GET "/assets/events.js?body=1" for 127.0.0.1 at 2013-08-28 15:54:51 -0400
+                $('.show-sidebar').show();                                                                                                                            │[2013-08-28 15:54:51] WARN  Could not determine content-length of response body. Set content-length of th
+          });                                                                                                                                                         │e response or set Response#chunked = true
+        });                                                                                                                                                           │
+                                                                                                                                                                      │
+        $('.show-sidebar').click(function() {                                                                                                                         │Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2013-08-28 15:54:51 -0400
+                $('#content').removeClass('span12');                                                                                                                  │[2013-08-28 15:54:51] WARN  Could not determine content-length of response body. Set content-length of th
+                $('#content').addClass('span9');                                                                                                                      │e response or set Response#chunked = true
+                $('.show-sidebar').hide();                                                                                                                            │
+                $('.hide-sidebar').show();                                                                                                                            │
+                $('#sidebar').show('fast');                                                                                                                           │Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-28 15:54:51 -0400
+        });                                                                                                                                                           │[2013-08-28 15:54:51] WARN  Could not determine content-length of response body. Set content-length of th
+});
