@@ -1,3 +1,13 @@
+<div class="navbar">
+                              <div class="navbar-inner">
+                                  <ul class="breadcrumb">
+                                      <li>
+                                          <a href="/">Dashboard</a> <span class="divider">/</span>
+                                      </li>
+                                      <li class="active">Events</li>
+                                  </ul>
+                              </div>
+                          </div>
 <div class="block">
   <div class="navbar navbar-inner block-header">
     <div class="muted pull-left">Events</div>
@@ -18,7 +28,7 @@
     <tr>
       <td><%= event["event"] %></td>
       <td><%= event["status"] %></td>
-      <td><%= event.to_json() %></td>
+      <td><a href="/events/<%= event["_id"] %>"><%= event.to_json() %></a></td>
     </tr>
   <% end %>
 </tbody>
