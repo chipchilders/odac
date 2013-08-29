@@ -1,7 +1,8 @@
 class ZoneController < ApplicationController
 
   def index
-    @zones = Zone.last
+    @zone = Zone.last
+    @lastupdate = @zone["collected_time"]
     @zonehistory = Zone.all
     @CAPACITY_TYPE_MEMORY = 0
     @CAPACITY_TYPE_CPU = 1
@@ -24,6 +25,7 @@ class ZoneController < ApplicationController
     @zone = Zone.last
     @zonehistory = Zone.all
     @zoneindex = params[:index].to_i
+    @lastupdate = @zone["collected_time"]
     @CAPACITY_TYPE_MEMORY = 0
     @CAPACITY_TYPE_CPU = 1
     @CAPACITY_TYPE_STORAGE = 2

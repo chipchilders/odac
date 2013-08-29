@@ -12,48 +12,42 @@
 <div class="block">
   <div class="navbar navbar-inner block-header">
     <div class="muted pull-left">Zones</div>
+    <div class="muted pull-right">
+      Last Updated: <%= @lastupdate %>
+    </div>
+  </div>
+  <div class="block-content collapse in">
+    <table id="events" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Network Type</th>
+          <th>Local Storage</th>
+          <th>Mem</th>
+          <th>CPU</th>
+          <th>Storage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @counter = 0 %>
+        <% @zone["zone"].each do |zone| %>
+          <tr>
+            <td><a href="/zones/<%= @counter %>"><%= zone["name"] %></a></td>
+            <td><%= zone["networktype"] %></td>
+            <td>
+              <% if zone["localstorageenabled"] %>
+                <span class="badge badge-success">Enabled</span>
+              <% else %>
+                <span class="badge badge-important">Disabled</span>
+              <% end %>
+            </td>
+            <td><a href="/zones/<%= @counter %>#memory"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"] %>%</a></td>
+            <td><a href="/zones/<%= @counter %>#cpu"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"] %>%</a></td>
+            <td><a href="/zones/<%= @counter %>#storage"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"] %>%</a></td>
+          </tr>
+          <% @counter += 1 %>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
-<div class="block-content collapse in">
-  <table id="events" class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Network Type</th>
-        <th>Local Storage</th>
-        <th>Mem</th>
-        <th>CPU</th>
-        <th>Storage</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @counter = 0 %>
-      <% @zones["zone"].each do |zone| %>
-        <tr>
-          <td><a href="/zones/<%= @counter %>"><%= zone["name"] %></a></td>
-          <td><%= zone["networktype"] %></td>
-          <td>
-            <% if zone["localstorageenabled"] %>
-              <span class="badge badge-success">Enabled</span>
-            <% else %>
-              <span class="badge badge-important">Disabled</span>
-            <% end %>
-          </td>
-          <td><%= easy_as_pie (zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"]) %></td>
-          <td><%= easy_as_pie (zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"]) %></td>
-          <td><%= easy_as_pie (zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"]) %></td>
-        </tr>
-        <% @counter += 1 %>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-<script language="javascript">
-  $(document).ready(function() {
-    $('.chart').easyPieChart({
-      size:100
-    });
-  });
-
-</script>
