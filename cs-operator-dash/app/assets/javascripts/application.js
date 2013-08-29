@@ -12,7 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.easy-pie-chart
 //= require bootstrap
+//= require raphael
+//= require morris
 //= require_tree .
 
 $(function() {                                                                                                                                                        │

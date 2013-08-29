@@ -1,0 +1,47 @@
+<div class="navbar">
+  <div class="navbar-inner">
+    <ul class="breadcrumb">
+      <li>
+      <a href="/">Dashboard</a> <span class="divider">/</span>  
+      </li>
+      <li>
+      <a href="/zones/index">Zones</a> <span class="divider">/</span> 
+      </li>
+      <li class="active">Zone Detail</li>
+    </ul>
+  </div>
+</div>
+<div class="row-fluid section">
+  <div class="block">
+    <div class="navbar navbar-inner block-header">
+      <div class="muted pull-left">Capacity</div>
+    </div>
+  </div>
+  <div class="block-content collapse in">
+    <div class="span12">
+      <div id="hero-graph" style="height: 230px;"></div>
+    </div>
+  </div>
+</div>
+<script language="javascript">
+  // Morris Line Chart
+  var zone_data = [
+  <% @zonehistory.each do |history| %>
+    {
+      "period": "<%= DateTime.parse(history["collected_time"]).strftime('%Y-%m-%d %H:%M:%S') %>",
+      "memory": <%= history["zone"][@zoneindex]["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"] %>,
+      "cpu": <%= history["zone"][@zoneindex]["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"] %>,
+      "storage": <%= history["zone"][@zoneindex]["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"] %>
+    },
+  <% end %>
+  ];
+  Morris.Line({
+    element: 'hero-graph',
+    data: zone_data,
+    xkey: 'period',
+    xLabels: "collected",
+    ykeys: ['memory', 'cpu', 'storage'],
+    labels: ['Memory', 'CPU', 'Storage']
+  });
+
+</script>
