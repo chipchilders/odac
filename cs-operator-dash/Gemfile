@@ -45,3 +45,4 @@ end
 gem 'bson_ext'
 gem 'bootstrap-sass'
 gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
+gem 'cloudstack_ruby_client'

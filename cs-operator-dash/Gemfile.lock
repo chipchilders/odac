@@ -37,12 +37,13 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.0)
     atomic (1.1.13)
-    bootstrap-sass (2.3.2.1)
+    bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     bson (1.9.2)
     bson_ext (1.9.2)
       bson (~> 1.9.2)
     builder (3.1.4)
+    cloudstack_ruby_client (0.2.0)
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0.beta, < 5.0)
@@ -116,7 +117,7 @@ GEM
     turbolinks (1.3.0)
       coffee-rails
     tzinfo (0.3.37)
-    uglifier (2.2.0)
+    uglifier (2.2.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
 
@@ -126,6 +127,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   bson_ext
+  cloudstack_ruby_client
   coffee-rails (~> 4.0.0)
   jbuilder (~> 1.2)
   jquery-rails
