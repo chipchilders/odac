@@ -46,3 +46,8 @@ gem 'bson_ext'
 gem 'bootstrap-sass'
 gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 gem 'cloudstack_ruby_client'
+
+gem 'easy_as_pie'
+
+gem 'morrisjs-rails'
+gem 'raphael-rails'
