@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = "Gem used to consume the AMQP event stream that Apache CloudStack can be configured to send to a RabbitMQ broker, sending them to a MongoDB server."
   gem.summary       = "Consume Apache CloudStack events and push to a MongoDB server."
   gem.homepage      = "http://chipchilders.github.io/cs-operator-dashboard"
+  gem.license       = 'ASLv2'
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
