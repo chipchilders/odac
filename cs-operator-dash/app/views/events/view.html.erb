@@ -1,37 +1,37 @@
 <div class="navbar">
-                              <div class="navbar-inner">
-                                  <ul class="breadcrumb">
-                                      <li>
-                                          <a href="/">Dashboard</a> <span class="divider">/</span>  
-                                      </li>
-                                      <li>
-                                          <a href="/events/index">Events</a> <span class="divider">/</span> 
-                                      </li>
-                                      <li class="active">Event Detail</li>
-                                  </ul>
-                              </div>
-                          </div>
+  <div class="navbar-inner">
+    <ul class="breadcrumb">
+      <li>
+      <a href="/">Dashboard</a> <span class="divider">/</span>  
+      </li>
+      <li>
+      <a href="/events/index">Events</a> <span class="divider">/</span> 
+      </li>
+      <li class="active">Event Detail</li>
+    </ul>
+  </div>
+</div>
 <div class="block">
   <div class="navbar navbar-inner block-header">
     <div class="muted pull-left">Event Details</div>
   </div>
 </div>
 <div class="block-content collapse in">
-<table id="events" class="table table-striped">
-  <thead>
-  <tr>
-    <th>Field</th>
-    <th>Content</th>
-  </tr>
-</thead>
-<tbody>
-  <% @event.attributes.each do |attr| %>
-  <tr>
-    <td><%= attr[0] %></td>
-    <td><%= attr[1] %></td>
-  </tr>
-  <% end %>
-</tbody>
-</table>
+  <table id="events" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @event.attributes.each do |attr| %>
+        <tr>
+          <td><%= attr[0] %></td>
+          <td><%= attr[1] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 
