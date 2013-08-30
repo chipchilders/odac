@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3" id="sidebar">
+      <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+        <li class="<%= 'active' if @viewname == 'Overview' %>">
+        <a href="/zones/<%= params[:id] %>">
+          <i class="icon-chevron-right"></i> Overview
+        </a>
+        </li>
+        <li class="<%= 'active' if @viewname == 'Charts' %>">
+        <a href="/zones/charts/<%= params[:id] %>">
+          <i class="icon-chevron-right"></i> Charts
+        </a>
+        </li>
+        <li class="<%= 'active' if @viewname == 'Hosts' %>">
+        <a href="/zones/hosts/<%= params[:id] %>">
+          <i class="icon-chevron-right"></i> Hosts
+        </a>
+        </li>
+      </ul>
+    </div>
+    <div class="span9" id="content">

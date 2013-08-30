@@ -9,6 +9,8 @@ CsOperatorDash::Application.routes.draw do
   get 'zones' => 'zone#index'
   get 'zones/index' => 'zone#index'
   get 'zones/json' => 'zone#json'
+  get 'zones/hosts/:id' => 'zone#hosts'
+  get 'zones/charts/:id' => 'zone#charts'
   get 'zones/:id' => 'zone#view'
   get 'zones/json/:id' => 'zone#json_single'
 

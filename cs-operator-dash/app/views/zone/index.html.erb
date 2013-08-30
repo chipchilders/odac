@@ -37,9 +37,27 @@
                 Disabled
               <% end %>
             </td>
-            <td><a href="/zones/<%= zone["zoneid"] %>#memory"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"] %>%</a></td>
-            <td><a href="/zones/<%= zone["zoneid"] %>#cpu"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"] %>%</a></td>
-            <td><a href="/zones/<%= zone["zoneid"] %>#storage"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"] %>%</a></td>
+            <td>
+              <a href="/zones/charts/<%= zone["zoneid"] %>#memory">
+                <span class="badge <%= if zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"].to_i > @threashold then 'badge-important'; else 'badge-success'; end %>">
+                  <%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"].to_i %>%
+                </span>
+              </a>
+            </td>
+            <td>
+              <a href="/zones/charts/<%= zone["zoneid"] %>#cpu">
+                <span class="badge <%= if zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"].to_i > @threashold then 'badge-important'; else 'badge-success'; end %>">
+                  <%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"].to_i %>%
+                </span>
+              </a>
+            </td>
+            <td>
+              <a href="/zones/charts/<%= zone["zoneid"] %>#storage">
+                <span class="badge <%= if zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"].to_i > @threashold then 'badge-important'; else 'badge-success'; end %>">
+                  <%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"].to_i %>%
+                </span>
+              </a>
+            </td>
           </tr>
         <% end %>
       </tbody>

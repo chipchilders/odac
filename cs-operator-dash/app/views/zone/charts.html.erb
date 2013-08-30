@@ -1,0 +1,104 @@
+<%= render 'header' %>
+<div class="row-fluid">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <ul class="breadcrumb">
+        <li>
+        <a href="/">Dashboard</a> <span class="divider">/</span>
+        </li>
+        <li>
+        <a href="/zones/">Zones</a> <span class="divider">/</span>
+        </li>
+        <li><a href="/zones/<%= params[:id]%>">Overview (<%= @zone["name"] %>)</a> <span class="divider">/</span></li>
+        <li class="active">Charts</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<a name="memory"></a>
+<div class="row-fluid section">
+  <div class="block">
+    <div class="navbar navbar-inner block-header">
+      <div class="muted pull-left">Memory</div>
+    </div>
+    <div class="block-content collapse in">
+      <div class="span12">
+        <div id="memory-graph" style="height: 230px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<a name="cpu"></a>
+<div class="row-fluid section">
+  <div class="block">
+    <div class="navbar navbar-inner block-header">
+      <div class="muted pull-left">CPU</div>
+    </div>
+    <div class="block-content collapse in">
+      <div class="span12">
+        <div id="cpu-graph" style="height: 230px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<a name="storage"></a>
+<div class="row-fluid section">
+  <div class="block">
+    <div class="navbar navbar-inner block-header">
+      <div class="muted pull-left">Storage</div>
+    </div>
+    <div class="block-content collapse in">
+      <div class="span12">
+        <div id="storage-graph" style="height: 230px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script language="javascript">
+
+  // Morris Line Chart
+  var zone_data = [
+  <% @zonehistory.each do |history| %>
+    {
+      "period": "<%= DateTime.parse(history["collected_time"]).strftime('%Y-%m-%d %H:%M:%S') %>",
+      "memory_total": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["capacitytotal"] %>,
+      "cpu_total": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["capacitytotal"] %>,
+      "storage_total": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["capacitytotal"] %>,
+      "memory_used": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["capacityused"] %>,
+      "cpu_used": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["capacityused"] %>,
+      "storage_used": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["capacityused"] %>,
+      "memory_percent": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"] %>,
+      "cpu_percent": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"] %>,
+      "storage_percent": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"] %>
+    },
+  <% end %>
+  ];
+  Morris.Line({
+    element: 'memory-graph',
+    data: zone_data,
+    xkey: 'period',
+    xLabels: "collected",
+    ykeys: ['memory_total', 'memory_used'],
+    labels: ['Total Memory', 'Used Memory']
+  });
+  Morris.Line({
+    element: 'cpu-graph',
+    data: zone_data,
+    xkey: 'period',
+    xLabels: "collected",
+    ykeys: ['cpu_total', 'cpu_used'],
+    labels: ['Total CPU', 'Used CPU']
+  });
+  Morris.Line({
+    element: 'storage-graph',
+    data: zone_data,
+    xkey: 'period',
+    xLabels: "collected",
+    ykeys: ['storage_total', 'storage_used'],
+    labels: ['Total Storage', 'Used Storage']
+  });
+
+</script>
+
+<%= render 'footer' %>

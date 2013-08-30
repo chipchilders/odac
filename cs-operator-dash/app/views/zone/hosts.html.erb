@@ -1,0 +1,49 @@
+<%= render 'header' %>
+<div class="row-fluid">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <ul class="breadcrumb">
+        <li>
+        <a href="/">Dashboard</a> <span class="divider">/</span>
+        </li>
+        <li>
+        <a href="/zones/">Zones</a> <span class="divider">/</span>
+        </li>
+        <li><a href="/zones/<%= params[:id]%>">Overview (<%= @zone["name"] %>)</a> <span class="divider">/</span></li>
+        <li class="active">Hosts</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="block">
+  <div class="navbar navbar-inner block-header">
+    <div class="muted pull-left">Hosts</div>
+  </div>
+  <div class="block-content collapse in">
+    <table id="hosts" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Pod</th>
+          <th>Cluster</th>
+          <th>Host</th>
+          <th>Hypervisor</th>
+          <th>State</th>
+          <th>Resource State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @hosts.each do |host| %>
+          <tr>
+            <td><%= host["podname"] %></td>
+            <td><%= host["clustername"] %></td>
+            <td><%= host["name"] %></td>
+            <td><%= host["hypervisor"] %></td>
+            <td><%= host["state"] %></td>
+            <td><%= host["resourcestate"] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%= render 'footer' %>
