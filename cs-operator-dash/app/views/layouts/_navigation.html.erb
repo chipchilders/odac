@@ -1,11 +1,8 @@
 <%= link_to "Operations Dashboard for Apache CloudStack", "/", :class => 'brand' %>
 <div class="nav-collapse collapse">
   <ul class="nav">
-    <li class="<%= 'active' if params[:controller] == 'dashboard' %>">
-      <a href="#">Dashboard</a>
-    </li>
     <li class="<%= 'active' if params[:controller] == 'zone' %>">
-    <%= link_to('Zones', '/zones/index') %>
+    <%= link_to('Dashboard', '/zones/index') %>
     </li>
     <li class="<%= 'active' if params[:controller] == 'events' %>">
     <%= link_to('Events', '/events/index') %>

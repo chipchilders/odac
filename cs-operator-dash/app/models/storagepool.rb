@@ -1,6 +1,6 @@
 require 'mongoid'
 
-class Zone
+class Storagepool
   include Mongoid::Document
   field :_id, type: String
   field :count

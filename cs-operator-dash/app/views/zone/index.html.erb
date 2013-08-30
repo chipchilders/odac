@@ -2,10 +2,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <ul class="breadcrumb">
-      <li>
-      <a href="/">Dashboard</a> <span class="divider">/</span>
-      </li>
-      <li class="active">Zones</li>
+      <li class="active">Dashboard</li>
     </ul>
   </div>
 </div>
@@ -29,23 +26,21 @@
         </tr>
       </thead>
       <tbody>
-        <% @counter = 0 %>
-        <% @zone["zone"].each do |zone| %>
+        <% @zone.each do |zone| %>
           <tr>
-            <td><a href="/zones/<%= @counter %>"><%= zone["name"] %></a></td>
+            <td><a href="/zones/<%= zone["zoneid"] %>"><%= zone["name"] %></a></td>
             <td><%= zone["networktype"] %></td>
             <td>
               <% if zone["localstorageenabled"] %>
-                <span class="badge badge-success">Enabled</span>
+                Enabled
               <% else %>
-                <span class="badge badge-important">Disabled</span>
+                Disabled
               <% end %>
             </td>
-            <td><a href="/zones/<%= @counter %>#memory"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"] %>%</a></td>
-            <td><a href="/zones/<%= @counter %>#cpu"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"] %>%</a></td>
-            <td><a href="/zones/<%= @counter %>#storage"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"] %>%</a></td>
+            <td><a href="/zones/<%= zone["zoneid"] %>#memory"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"] %>%</a></td>
+            <td><a href="/zones/<%= zone["zoneid"] %>#cpu"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"] %>%</a></td>
+            <td><a href="/zones/<%= zone["zoneid"] %>#storage"><%= zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"] %>%</a></td>
           </tr>
-          <% @counter += 1 %>
         <% end %>
       </tbody>
     </table>

@@ -1,9 +1,8 @@
 class ZoneController < ApplicationController
 
   def index
-    @zone = Zone.last
-    @lastupdate = @zone["collected_time"]
-    @zonehistory = Zone.all
+    @zone = Zone.all
+    @lastupdate = @zone[0]["collected_time"]
     @CAPACITY_TYPE_MEMORY = 0
     @CAPACITY_TYPE_CPU = 1
     @CAPACITY_TYPE_STORAGE = 2
@@ -17,15 +16,23 @@ class ZoneController < ApplicationController
   end
 
   def json
-    @zones = Zone.last
+    @zones = Zone.all
     render json: @zones
   end
 
+  def json_single
+    @zone = Zone.where(:id => params[:id])[0]
+    @zonehistory = Zone_History.where(:zoneid => params[:id])
+    render json: @zonehistory
+  end
+
   def view
-    @zone = Zone.last
-    @zonehistory = Zone.all
-    @zoneindex = params[:index].to_i
+    @zone = Zone.where(:id => params[:id])[0]
+    @zonehistory = Zone_History.where(:zoneid => params[:id])
     @lastupdate = @zone["collected_time"]
+
+    @hosts = Host.where(:zoneid => params[:id])
+
     @CAPACITY_TYPE_MEMORY = 0
     @CAPACITY_TYPE_CPU = 1
     @CAPACITY_TYPE_STORAGE = 2

@@ -1,6 +1,6 @@
 require 'mongoid'
 
-class Zone
+class Cluster
   include Mongoid::Document
   field :_id, type: String
   field :count
