@@ -19,7 +19,7 @@ module CsCapacityretriever
 
         pods = client.list_pods({
           "showcapacities" => "true", 
-          "pagesize" => 1000,
+          "pagesize" => 500,
           "page" => 1, 
           "zoneid" => zone["id"]
         })
@@ -30,7 +30,7 @@ module CsCapacityretriever
 
           clusters = client.list_clusters({
             "showcapacities" => "true",
-            "pagesize" => 1000,
+            "pagesize" => 500,
             "page" => 1,
             "podid" => pod["id"]
           })
@@ -41,7 +41,7 @@ module CsCapacityretriever
 
             hosts = client.list_hosts({
               "showcapacities" => "true",
-              "pagesize" => 1000,
+              "pagesize" => 500,
               "page" => 1,
               "clusterid" => cluster["id"]
             })
@@ -52,7 +52,7 @@ module CsCapacityretriever
             end
 
             storagepools = client.list_storage_pools({
-              "pagesize" => 1000,
+              "pagesize" => 500,
               "page" => 1,
               "clusterid" => cluster["id"]
             })
