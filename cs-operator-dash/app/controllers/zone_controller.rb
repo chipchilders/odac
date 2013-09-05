@@ -21,7 +21,7 @@ class ZoneController < ApplicationController
     render json: @zones
   end
 
-  def json_single
+  def jsonsingle
     @zone = Zone.where(:id => params[:id])[0]
     @zonehistory = Zone_History.where(:zoneid => params[:id])
     render json: @zonehistory
@@ -70,6 +70,16 @@ class ZoneController < ApplicationController
     @zone = Zone.where(:id => params[:id])[0]
     @lastupdate = @zone["collected_time"]
     @hosts = Host.where(:zoneid => params[:id])
+  end
+
+  def jsonhosts
+    @hosts = Host.where(:zoneid => params[:id])
+    render json: @hosts
+  end
+
+  def jsonhost
+    @host = Host.where(:hostid => params[:hostid])
+    render json: @host
   end
 
 end

@@ -29,6 +29,7 @@
           <th>Hypervisor</th>
           <th>State</th>
           <th>Resource State</th>
+          <th>GUID</th>
         </tr>
       </thead>
       <tbody>
@@ -40,10 +41,11 @@
             <td><%= host["hypervisor"] %></td>
             <td><%= host["state"] %></td>
             <td><%= host["resourcestate"] %></td>
+            <td><%= host["id"] %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
 </div>
-<%= render 'footer' %>
+<%= render 'footer' %> 

@@ -1,0 +1,256 @@
+<script>
+  var hostsjson;
+
+  $.ajax({
+    type: 'GET',
+    url: '/zones/<%= params[:id]%>/hosts/json/',
+    dataType: 'json',
+    success: function(data) { hostsjson = data; },
+    async: false
+  });
+
+</script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<div class="block">
+  <div class="navbar navbar-inner block-header">
+    <div class="muted pull-left">Zone Heatmap (<span id="heatmaptype"></span>)</div>
+  </div>
+  <div class="block-content">
+    <div class="pull-right">
+      <div class="btn-group">
+        <button data-toggle="dropdown" class="btn dropdown-toggle">View Type <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="javascript: render_heatmap('overview', 'Overview')">Overview</a></li>
+          <li class="divider"></li>
+          <li><a href="javascript: render_heatmap('memory', 'Memory')">Memory</a></li>
+          <li><a href="javascript: render_heatmap('cpu', 'CPU')">CPU</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="hostheatmap">
+    </div>
+  </div>
+</div>
+<script>
+  var nestedpods = d3.nest()
+  .key(function(d) { return d.podname; })
+  .key(function(d) { return d.clustername; })
+  .entries(hostsjson);
+
+  function render_heatmap(active_heat_type, heat_type_label){
+
+    $('#heatmaptype').text(heat_type_label);
+
+    $("#hostheatmap svg").remove();
+
+    function find_largest_cluster(environment){
+      max = 0;
+      for (p=0; p<environment.length; p++){
+        for (c=0; c<environment[p].values.length; c++){
+          if (environment[p].values[c].values.length > max){
+            max = environment[p].values[c].values.length;
+          }
+        }
+      }
+      return max;
+    }
+
+    var cellSize = 17;
+    var width = 960; //(find_largest_cluster(nestedpods) * cellSize);
+    var height = 136;
+
+    var formatPercent = function(val) { return Math.round(val) + "%"; };
+
+    function find_cluster_count_for_pod(pod){
+      return pod.values.length;
+    }
+
+    function cluster(d){
+      return d.values[0].cluster;
+    };
+
+    function cluster_from_host(d){
+      return d.cluster;
+    }
+
+    function host(d){
+      return d.host;
+    };
+
+    function gethostcount(d){
+      return d.values.length;
+    }
+
+    // Create pod structure
+    var svg = d3.select("#hostheatmap").selectAll("svg")
+    .data(nestedpods)
+    .enter().append("svg")
+    .attr("width", width)
+    .attr("height", function(d) { return find_cluster_count_for_pod(d) * cellSize + 10; })
+    .append("g")
+
+    // Label pods
+    svg.append("text")
+    .style("text-anchor", "left")
+    .attr("transform", "translate(10,20)")
+    .text(function(d) { return d.key; });
+    
+    // Function to retrieve cluster list and append counter value
+    function get_clusters_from_pod(d){
+      clusterarr = []
+      for (c=0; c<d.values.length; c++){
+        d.values[c].clusternum=c+1;
+        clusterarr.push(d.values[c]);
+      }
+      return clusterarr;
+    }
+
+    // Create cluster rows
+    var clusters = svg.selectAll(".cluster")
+    .data(function (d) { return get_clusters_from_pod(d); })
+    .enter().append("rect")
+    .attr("class", "cluster")
+    .attr("width", function(d) { return gethostcount(d) * cellSize; })
+    .attr("height", cellSize)
+    .attr("x", function(d) { return 100; })
+    .attr("y", function(d) { return d.clusternum * cellSize - cellSize; });
+
+    // Label clusters
+    clusters.append("title")
+    .text(function(d) { return d.key; });
+
+    // Function to retrieve hosts and append counter values for hosts and clusters
+    function get_hosts_from_pod(d){
+      hostarr = []
+      for (c=0; c<d.values.length; c++){
+        for (h=0; h<d.values[c].values.length; h++){
+          d.values[c].values[h].clusternum=c+1;
+          d.values[c].values[h].hostnum=h+1;
+          hostarr.push(d.values[c].values[h]);
+        }
+      }
+      return hostarr;
+    }
+
+    function get_host_details(host){
+      var details = host;
+      details.mempercent = (host.memoryallocated/host.memorytotal) * 100;
+      if (host.cpuused){
+        details.cpuused = host.cpuused.replace("%", "");
+      } else {
+        details.cpuused = 0;
+      }
+      return details;
+    }
+
+    var color = d3.scale.linear()
+      .domain([0, 50, 100])
+      .range(["lightgreen", "orange", "red"]);
+
+    // Function to determine color of host in heatmap
+    function get_host_fill(host){
+
+      host = get_host_details(host);
+
+      var resourcestate_errors = ["ErrorInMaintenance", "Error"];
+      var resourcestate_disabled = ["Disabled", "Unmanaged", "Maintenance"];
+      var resourcestate_transitioning = ["PrepareForMaintenance"];
+      var resourcestate_ok = ["Enabled"];
+
+      var state_ok = ["Up"];
+      var state_down = ["Down", "Disconnected", "Alert", "Error"];
+      var state_transitioning = ["Creating", "Connecting", "Rebalancing"];
+      var state_disabled = ["Removed"];
+
+      if ($.inArray(host.resourcestate, resourcestate_ok) > -1){
+        if ($.inArray(host.state, state_ok) > -1) {
+
+          if (active_heat_type == 'memory'){
+            return "fill: " + color(host.mempercent);
+          } else if (active_heat_type == 'cpu') {
+            return "fill: " + color(host.cpuused);
+          } else if (active_heat_type == 'overview') {
+
+            if (host.mempercent > host.cpuused) {
+              return "fill: " + color(host.mempercent);
+            } else if (host.mempercent < host.cpuused) {
+              return "fill: " + color(host.cpuused);
+            } else {
+              return "fill: " + color(host.cpuused);
+            }
+
+          }
+
+        } else if ($.inArray(host.state, state_down) > -1) {
+          return "fill: red";
+        } else if ($.inArray(host.state, state_transitioning) > -1) {
+          return "fill: lightgray";
+        } else if ($.inArray(host.state, state_disabled) > -1) {
+          return "fill: gray";
+        } else {
+          return "fill: gray";
+        }
+      }
+      else if ($.inArray(host.resourcestate, resourcestate_disabled) > -1){
+        return "fill: gray";
+      }
+      else if ($.inArray(host.resourcestate, resourcestate_transitioning) > -1){
+        return "fill: lightgray";
+      }
+      else if ($.inArray(host.resourcestate, resourcestate_errors) > -1){
+        return "fill: red";
+      }
+      else {
+        return "fill: gray";
+      }
+    }
+
+    function get_host_tooltip(host){
+      host = get_host_details(host);
+      var tp = "";
+      tp = tp + "<strong>Host:</strong> " + host.name + "<br />";
+      tp = tp + "<strong>Resource State:</strong> " + host.resourcestate + "<br />";
+      tp = tp + "<strong>State:</strong> " + host.state + "<br />";
+      tp = tp + "<strong>Memory:</strong> " + formatPercent(host.mempercent) + "<br />";
+      tp = tp + "<strong>CPU:</strong> " + formatPercent(host.cpuused);
+      return tp;
+    }
+
+    // Create host cells
+    var hosts = svg.selectAll(".host")
+    .data(function (d) { return get_hosts_from_pod(d); })
+    .enter().append("rect")
+    .attr("class", "host" )
+    .attr("style", function(d) { return get_host_fill(d); } )
+    .attr("width", cellSize -1)
+    .attr("height", cellSize -1)
+    .attr("x", function(d, i) { return (d.hostnum * cellSize - cellSize + 1) + 100; })
+    .attr("y", function(d) { return d.clusternum * cellSize - cellSize +1 ; })
+    .on("mouseover", function(d) {
+      div.transition()        
+        .duration(200)      
+        .style("opacity", .9);      
+      
+      div .html(get_host_tooltip(d))
+        .style("left", (d3.event.pageX) + "px")     
+        .style("top", (d3.event.pageY - 28) + "px");    
+      })                  
+    .on("mouseout", function(d) {       
+      div.transition()        
+        .duration(500)      
+        .style("opacity", 0);   
+    });
+
+    // Label hosts
+    hosts.append("title")
+    .text(function(d) { return d.status; });
+
+  }
+
+  render_heatmap('overview', 'Overview');
+
+  var div = d3.select("body").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
+
+</script>

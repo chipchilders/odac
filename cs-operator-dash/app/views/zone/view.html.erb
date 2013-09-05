@@ -53,19 +53,19 @@
       <div class="block-content collapse in">
         <div class="row-fluid">
           <div class="span4">
-            <a href="/zones/charts/<%= params[:id] %>#memory"><%= easy_as_pie (@zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"]) %></a>
+            <a href="/zones/<%= params[:id] %>/charts/#memory"><%= easy_as_pie (@zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["percentused"]) %></a>
             <div class="chart-bottom-heading">
               <span class="label label-info">Memory</span>
             </div>
           </div>
           <div class="span4">
-            <a href="/zones/charts/<%= params[:id] %>#cpu"><%= easy_as_pie (@zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"]) %></a>
+            <a href="/zones/<%= params[:id] %>/charts/#cpu"><%= easy_as_pie (@zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_CPU }["percentused"]) %></a>
             <div class="chart-bottom-heading">
               <span class="label label-info">CPU</span>
             </div>
           </div>
           <div class="span4">
-            <a href="/zones/charts/<%= params[:id] %>#storage"><%= easy_as_pie (@zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"]) %></a>
+            <a href="/zones/<%= params[:id] %>/charts/#storage"><%= easy_as_pie (@zone["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_STORAGE }["percentused"]) %></a>
             <div class="chart-bottom-heading">
               <span class="label label-info">Storage</span>
             </div>
@@ -107,6 +107,7 @@
         </div>
       </div>
     </div>
+        <%= render 'hostheatmap' %>
   </div>
 </div>
 

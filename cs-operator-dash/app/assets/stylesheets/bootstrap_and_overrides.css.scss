@@ -6,6 +6,42 @@ body {
 	padding-top: 60px;
 	padding-bottom: 40px;
 	background-color: #f5f5f5;
+    shape-rendering: crispEdges;
+}
+
+            .host {
+                /*stroke: #ccc;
+                stroke-width: 1px;*/
+            }
+
+            .pod {
+                fill: none;
+                /*stroke: #ccc;
+                stroke-width: 1px;*/
+            }
+
+            .cluster {
+                fill: none;
+                stroke: #ccc;
+                stroke-width: 1px;
+            }
+
+            .good{fill:rgb(166,217,106)}
+            .warning{fill:rgb(253,174,97)}
+            .error{fill:rgb(215,48,39)}
+            .unknown{fill:#fff}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: left;           
+  /*width: 60px;     */             
+  /*height: 28px;   */              
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: lightyellow;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
 }
 
 /** Login Page **/

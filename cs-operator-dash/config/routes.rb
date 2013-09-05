@@ -8,11 +8,13 @@ CsOperatorDash::Application.routes.draw do
 
   get 'zones' => 'zone#index'
   get 'zones/index' => 'zone#index'
-  get 'zones/json' => 'zone#json'
-  get 'zones/hosts/:id' => 'zone#hosts'
-  get 'zones/charts/:id' => 'zone#charts'
+  get 'zones/:id/hosts' => 'zone#hosts'
+  get 'zones/:id/hosts/json' => 'zone#jsonhosts'
+  get 'zones/:id/hosts/:hostid/json' => 'zone#jsonhost'
+  get 'zones/:id/charts' => 'zone#charts'
   get 'zones/:id' => 'zone#view'
-  get 'zones/json/:id' => 'zone#json_single'
+  get 'zones/json/:id' => 'zone#jsonsingle'
+  get 'zones/json' => 'zone#json'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

@@ -60,6 +60,7 @@
   // Morris Line Chart
   var zone_data = [
   <% @zonehistory.each do |history| %>
+    <% next if history["allocationstate"] != "Enabled" %>
     {
       "period": "<%= DateTime.parse(history["collected_time"]).strftime('%Y-%m-%d %H:%M:%S') %>",
       "memory_total": <%= history["capacity"].detect {|c| c["type"] == @CAPACITY_TYPE_MEMORY }["capacitytotal"] %>,
