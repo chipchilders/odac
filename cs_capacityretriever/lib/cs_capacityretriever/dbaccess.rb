@@ -7,16 +7,24 @@ require 'json'
 
 module CsCapacityretriever
   class DbAccess
-    def write(collection, document)
+    
+    def drop(collection)
       db = MongoClient.new(Config::MONGO_HOST, Config::MONGO_PORT).db(Config::MONGO_DB)
-      doc = JSON.parse(document)
+      coll = db.collection(collection + "s")
+      coll.drop()
+    end
 
-      coll = db.collection(collection + "_histories")
-      if doc.has_key?("id")
-        doc[collection + "id"] = doc["id"]
+    def write(collection, document, no_history=false, skip_json_parse=false)
+      db = MongoClient.new(Config::MONGO_HOST, Config::MONGO_PORT).db(Config::MONGO_DB)
+      doc = JSON.parse(document) unless skip_json_parse
+      unless no_history
+        coll = db.collection(collection + "_histories")
+        if doc.has_key?("id")
+          doc[collection + "id"] = doc["id"]
+        end
+        id = coll.insert(doc)
+        puts "Write " + id.to_s + " to " + collection + "_histories"
       end
-      id = coll.insert(doc)
-      puts "Write " + id.to_s + " to " + collection + "_histories"
 
       coll = db.collection(collection + "s")
       if doc.has_key?("id")
