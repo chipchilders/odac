@@ -84,6 +84,8 @@ $currentpodid = ""
 $currentclustername = ""
 $currentclusterid = ""
 
+$hosts = Array.new
+
 def definenewpod()
   $currentpod +=1
   $currentpodname = "pod" + $currentpod.to_s
@@ -98,7 +100,7 @@ def definenewcluster()
 end
 
 db = CsCapacityretriever::DbAccess.new()
-db.drop('hosts')
+db.drop('host')
 definenewpod()
 
 while $currenthost < options[:hosts_to_generate] do
@@ -112,8 +114,8 @@ while $currenthost < options[:hosts_to_generate] do
   newhost["clustername"] = $currentclustername
   newhost["podid"] = $currentpodid
   newhost["podname"] = $currentpodname
+  $hosts.push(newhost)
   db.write('host', newhost.to_json.to_s, no_history=true, skip_json_parse=false)
-  puts $currentpodname + " " + $currentclustername + " " + $currenthost.to_s if options[:debug]
   $currenthost +=1
 
   if ($currenthost % options[:hosts_per_cluster]) == 0
@@ -124,3 +126,31 @@ while $currenthost < options[:hosts_to_generate] do
     end
   end
 end
+
+podcounter = -1
+clustercounter = -1
+lastpodid = ''
+lastclusterid = ''
+
+$infra = {
+    "pods" => Array.new,
+    "zoneid" => $hosts[0]["zoneid"],
+    "_id" => $hosts[0]["zoneid"]
+}
+
+$hosts.each do |host|
+  if lastpodid != host["podid"]
+    podcounter +=1
+    clustercounter = -1
+    $infra["pods"][podcounter] = { "podid" => host["podid"], "clusters" => Array.new }
+  end
+  if lastclusterid != host["clusterid"]
+    clustercounter +=1
+    $infra["pods"][podcounter]["clusters"][clustercounter] = { "clusterid" => host["clusterid"], "hostcount" => 0 }
+  end
+  $infra["pods"][podcounter]["clusters"][clustercounter]["hostcount"] +=1
+  lastpodid = host["podid"]
+  lastclusterid = host["clusterid"]
+end
+
+db.write('infracounter', $infra.to_json.to_s, no_history=true, skip_json_parse=false)
