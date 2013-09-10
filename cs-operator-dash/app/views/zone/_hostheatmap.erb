@@ -65,6 +65,16 @@
       return pod.values.length;
     }
 
+    function find_max_host_count_for_pod(pod){
+      maxhosts = 0;
+      for (c=0; c<pod.values.length; c++){
+        if (pod.values[c].values.length > maxhosts){
+          maxhosts = pod.values[c].values.length;
+        }
+      }
+      return maxhosts;
+    }
+
     function cluster(d){
       return d.values[0].cluster;
     };
@@ -85,8 +95,10 @@
     var svg = d3.select("#hostheatmap").selectAll("svg")
     .data(nestedpods)
     .enter().append("svg")
-    .attr("width", width)
-    .attr("height", function(d) { return find_cluster_count_for_pod(d) * cellSize + 10; })
+    .attr("height", function(d) { return find_max_host_count_for_pod(d) * cellSize + 50; })
+    .attr("width", function(d) { return find_cluster_count_for_pod(d) * cellSize + 10; })
+//    .attr("width", width)
+//    .attr("height", function(d) { return find_cluster_count_for_pod(d) * cellSize + 10; })
     .append("g")
 
     // Label pods
@@ -105,6 +117,7 @@
       return clusterarr;
     }
 
+/*
     // Create cluster rows
     var clusters = svg.selectAll(".cluster")
     .data(function (d) { return get_clusters_from_pod(d); })
@@ -118,7 +131,7 @@
     // Label clusters
     clusters.append("title")
     .text(function(d) { return d.key; });
-
+*/
     // Function to retrieve hosts and append counter values for hosts and clusters
     function get_hosts_from_pod(d){
       hostarr = []
@@ -209,6 +222,8 @@
       host = get_host_details(host);
       var tp = "";
       tp = tp + "<strong>Host:</strong> " + host.name + "<br />";
+      tp = tp + "<strong>Cluster:</strong> " + host.clustername + "<br />";
+      tp = tp + "<strong>Pod:</strong> " + host.podname + "<br />";
       tp = tp + "<strong>Resource State:</strong> " + host.resourcestate + "<br />";
       tp = tp + "<strong>State:</strong> " + host.state + "<br />";
       tp = tp + "<strong>Memory:</strong> " + formatPercent(host.mempercent) + "<br />";
@@ -224,8 +239,8 @@
     .attr("style", function(d) { return get_host_fill(d); } )
     .attr("width", cellSize -1)
     .attr("height", cellSize -1)
-    .attr("x", function(d, i) { return (d.hostnum * cellSize - cellSize + 1) + 100; })
-    .attr("y", function(d) { return d.clusternum * cellSize - cellSize +1 ; })
+    .attr("y", function(d, i) { return (d.hostnum * cellSize - cellSize + 1) + 30; })
+    .attr("x", function(d) { return d.clusternum * cellSize - cellSize +1 ; })
     .on("mouseover", function(d) {
       div.transition()        
         .duration(200)      
