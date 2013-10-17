@@ -1,4 +1,17 @@
 <script>
+
+  var infracounter;
+
+  $.ajax({
+    type: 'GET',
+    url: '/zones/json/<%= params[:id]%>/infracounter/',
+    dataType: 'json',
+    success: function(data) { infracounter = data; },
+    async: false
+  });
+
+  
+
   var hostsjson;
 
   $.ajax({

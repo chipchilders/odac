@@ -129,6 +129,7 @@ end
 
 podcounter = -1
 clustercounter = -1
+hostcounter = 0
 lastpodid = ''
 lastclusterid = ''
 
@@ -151,6 +152,9 @@ $hosts.each do |host|
   $infra["pods"][podcounter]["clusters"][clustercounter]["hostcount"] +=1
   lastpodid = host["podid"]
   lastclusterid = host["clusterid"]
+  hostcounter +=1
 end
+
+$infra["totalhostcount"] = hostcounter
 
 db.write('infracounter', $infra.to_json.to_s, no_history=true, skip_json_parse=false)

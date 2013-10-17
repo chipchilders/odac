@@ -82,4 +82,9 @@ class ZoneController < ApplicationController
     render json: @host
   end
 
+  def jsoninfracounter
+    @infracounters = Infracounter.where(:id => params[:id])
+    render json: @infracounters
+  end
+
 end

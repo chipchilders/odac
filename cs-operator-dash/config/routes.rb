@@ -14,6 +14,7 @@ CsOperatorDash::Application.routes.draw do
   get 'zones/:id/charts' => 'zone#charts'
   get 'zones/:id' => 'zone#view'
   get 'zones/json/:id' => 'zone#jsonsingle'
+  get 'zones/json/:id/infracounter' => 'zone#jsoninfracounter'
   get 'zones/json' => 'zone#json'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
